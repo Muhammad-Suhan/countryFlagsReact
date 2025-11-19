@@ -8,7 +8,18 @@ const Countries = () => {
       .then((res) => res.json())
       .then((data) => setCountries(data));
   }, []);
-
+  const [visitedCountries, setVisitedCountries] = useState([])
+  const handleVisitedCountrie = (country)=>{
+    const newVisitedCountry = [...visitedCountries, country];
+    
+    setVisitedCountries(newVisitedCountry)
+  }
+  const [visitedFlag, setVisitedFlag] = useState([])
+  const handleVisitedFlag =(country)=>{
+    console.log(country)
+    const newVisitedFlags = [...visitedFlag, country];
+    setVisitedFlag(newVisitedFlags)
+  }
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4 mt-4">
@@ -33,10 +44,26 @@ const Countries = () => {
           </label>
         </div>
       </div>
-      
+      <div>
+        <h1>Visited Flags:</h1>
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+          {
+            visitedFlag.map(flag => <img className="w-full h-full" src={flag.flags.png}></img>)
+          }
+        </div>
+      </div>
+      <div>
+        <h1 className="text-2xl text-center">My visited Countries: {visitedCountries.length}</h1>
+        <ul className="">
+          {
+            visitedCountries.map(country => <li className="text-center bg-slate-200 mt-2">{country.name.common}</li>)
+          }
+        </ul>
+      </div>
+      <div className="h-1 bg-gray-400 border-dotted border-2 mt-6"></div>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
         {countries.map((country) => (
-          <Country country={country}></Country>
+          <Country handleVisitedFlag={handleVisitedFlag} handleVisitedCountrie={handleVisitedCountrie} country={country}></Country>
         ))}
       </div>
     </div>
